@@ -22,7 +22,7 @@ let modelSelect, modelInput, initializeModelButton, stopClassifyButton;
 
 const modelList = {
   "🧘Sit |🧍Stand": "r8wsgg5mm",
-  "🙆O |🙅X": "YKdY8lyAQ",␊
+  "🙆O |🙅X": "YKdY8lyAQ",
   "🙋Arm Pose": "Q5Ur108ke"
 };
 
