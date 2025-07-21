@@ -21,9 +21,9 @@ let connectBluetoothButton, disconnectBluetoothButton;
 let modelSelect, modelInput, initializeModelButton, stopClassifyButton;
 
 const modelList = {
-  "🧘앉기 |🧍일어서기": "r8wsgg5mm",
-  "🙆O |🙅X": "YKdY8lyAQ",
-  "🙋 팔모양": "Q5Ur108ke"
+  "🧘Sit |🧍Stand": "r8wsgg5mm",
+  "🙆O |🙅X": "YKdY8lyAQ",␊
+  "🙋Arm Pose": "Q5Ur108ke"
 };
 
 let isSendingData = false;
@@ -49,16 +49,16 @@ function setupCamera() {
 }
 
 function createUI() {
-  connectBluetoothButton = createButton("🔗 블루투스 연결");
+  connectBluetoothButton = createButton("🔗 Connect");
   connectBluetoothButton.parent('bluetooth-control-buttons');
   connectBluetoothButton.mousePressed(connectBluetooth);
 
-  disconnectBluetoothButton = createButton("❌ 블루투스 연결 해제");
+  disconnectBluetoothButton = createButton("❌ Disconnect");
   disconnectBluetoothButton.parent('bluetooth-control-buttons');
   disconnectBluetoothButton.mousePressed(disconnectBluetooth);
 
   modelSelect = select('#modelSelect');
-  modelSelect.option("모델을 선택하세요", "");
+  modelSelect.option("Select a model", "");
   for (const modelName in modelList) {
     modelSelect.option(modelName, modelList[modelName]);
   }
@@ -67,12 +67,12 @@ function createUI() {
   modelInput = select('#modelInput');
   modelInput.value("");
 
-  initializeModelButton = createButton('🟢 모델 로드');
+  initializeModelButton = createButton('🟢 Load Model');
   initializeModelButton.parent('model-action-buttons');
   initializeModelButton.id('initializeModelButton');
   initializeModelButton.mousePressed(initializeModel);
 
-  stopClassifyButton = createButton('🔴 분류 중지');
+  stopClassifyButton = createButton('🔴 Stop Classification');
   stopClassifyButton.parent('model-action-buttons');
   stopClassifyButton.id('stopClassifyButton');
   stopClassifyButton.mousePressed(stopClassification);
@@ -125,7 +125,7 @@ function disconnectBluetooth() {
 
 function updateBluetoothStatus() {
   const statusElement = select('#bluetoothStatus');
-  statusElement.html(`상태: ${bluetoothStatus}`);
+  statusElement.html(`Status: ${bluetoothStatus}`);
   if (bluetoothStatus.includes("Connected")) {
     statusElement.style('background-color', '#d0f0fd');
     statusElement.style('color', '#FE818D');
@@ -164,7 +164,7 @@ async function sendBluetoothData(data) {
 function initializeModel() {
   const modelKey = modelInput.value().trim();
   if (!modelKey) {
-    alert('모델 키를 입력하세요!');
+    alert('Please enter the model key!');
     return;
   }
   const modelURL = `https://teachablemachine.withgoogle.com/models/${modelKey}/model.json`;
@@ -176,7 +176,7 @@ function initializeModel() {
     label = "wait";
     startClassification();
   }).catch(error => {
-    console.error('모델 로드 실패:', error);
+    console.error('Failed to load model:', error);
   });
 }
 
@@ -207,7 +207,7 @@ async function classifyPose() {
     });
 
     label = highestPrediction.className;
-    console.log("분류 결과:", label);
+      console.log("Classification result:", label);
     sendBluetoothData(label);
   }
   requestAnimationFrame(classifyPose);
